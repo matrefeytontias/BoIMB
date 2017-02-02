@@ -61,6 +61,13 @@ class Mod
 	
 	public function writeCompiledResult(f:FileOutput)
 	{
+		var s = "\n-- #";
+		var n = dirname.length + 4;
+		for(i in 0 ... n - 1)
+			s += "#";
+		f.writeString(s + "\n");
+		f.writeString("-- # " + dirname + " #");
+		f.writeString(s + "\n\n");
 		f.writeString(compiledResult);
 	}
 	
