@@ -1,6 +1,7 @@
 package files;
 
 import haxe.io.Eof;
+import haxe.io.Path;
 import sys.io.*;
 
 class SourceFile
@@ -10,6 +11,7 @@ class SourceFile
 	
 	private function new(p:String)
 	{
+		p = Path.normalize(p);
 		path = p;
 		var out = File.read(p, false);
 		lines = new Array<String>();

@@ -26,6 +26,9 @@ class Mod
 		
 		// Find all .lua files
 		FileSystemExplorer.explore(path, findLuaFiles);
+		// Build relative paths of RequiredSources
+		for(r in requiredSources)
+			r.setSource(mainSource);
 	}
 	
 	// Doesn't matter if we return true for a file
@@ -48,5 +51,13 @@ class Mod
 			}
 		}
 		return true;
+	}
+	
+	public function report()
+	{
+		trace("	Contains " + (requiredSources.length + 1) + " Lua file(s) :");
+		trace("\tmain.lua");
+		for(r in requiredSources)
+			trace("\t" + r.relativePathToSource);
 	}
 }

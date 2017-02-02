@@ -15,6 +15,7 @@ class ModpackBuilder
 		for(m in mods)
 		{
 			trace("  " + m.name + ", " + m.dirname);
+			m.report();
 		}
 	}
 	
