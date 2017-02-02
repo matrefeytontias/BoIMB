@@ -1,16 +1,29 @@
 package files;
 
-import sys.io.File;
-import sys.io.FileInput;
+import haxe.io.Eof;
+import sys.io.*;
 
 class SourceFile
 {
 	public var path:String;
-	public var out:FileInput;
+	private var lines:Array<String>;
 	
 	public function new(p:String)
 	{
 		path = p;
-		out = File.read(p, false);
+		var out = File.read(p, false);
+		lines = new Array<String>();
+		
+		while(true)
+		{
+			try
+			{
+				lines.push(out.readLine());
+			}
+			catch(e:Eof)
+			{
+				break;
+			}
+		}
 	}
 }

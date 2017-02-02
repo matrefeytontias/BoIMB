@@ -4,13 +4,10 @@ class MainSource extends SourceFile
 {
 	public function getModName() : String
 	{
-		var l:String = out.readLine();
-		var e = ~/^ *local *([a-zA-Z](_|[a-zA-Z0-9])*) *= *RegisterMod *\(.*\)/i;
-		while(l != null)
+		for(l in lines)
 		{
-			if(e.match(l))
-				return e.matched(1);
-			l = out.readLine();
+			if(GeneralRegExp.modName.match(l))
+				return GeneralRegExp.modName.matched(1);
 		}
 		throw "main.lua must contain RegisterMod";
 	}
