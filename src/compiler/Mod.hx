@@ -41,7 +41,7 @@ class Mod
 					if(mainSource != null)
 						throw "cannot have more than one main.lua per mod.";
 					mainSource = new MainSource(p);
-					name = mainSource.getModName();
+					name = mainSource.modName;
 				}
 				else
 					requiredSources.push(new RequiredSource(p));

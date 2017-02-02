@@ -8,7 +8,7 @@ class SourceFile
 	public var path:String;
 	private var lines:Array<String>;
 	
-	public function new(p:String)
+	private function new(p:String)
 	{
 		path = p;
 		var out = File.read(p, false);

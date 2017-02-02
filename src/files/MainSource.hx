@@ -2,12 +2,19 @@ package files;
 
 class MainSource extends SourceFile
 {
-	public function getModName() : String
+	public var modName:String;
+	
+	public function new(p:String)
 	{
+		super(p);
+		
 		for(l in lines)
 		{
 			if(GeneralRegExp.modName.match(l))
-				return GeneralRegExp.modName.matched(1);
+			{
+				modName = GeneralRegExp.modName.matched(1);
+				return;
+			}
 		}
 		throw "main.lua must contain RegisterMod";
 	}

@@ -8,6 +8,11 @@ class RequiredSource extends SourceFile
 {
 	public var relativePathToSource(default, null):String;
 	
+	public function new(p:String)
+	{
+		super(p);
+	}
+	
 	public function setSource(source:SourceFile)
 	{
 		var d = Path.directory(source.path);
