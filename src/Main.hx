@@ -1,11 +1,11 @@
 class Main
 {
-    static public var outName:String;
-    
-    static public function main()
-    {
-        outName = Sys.args()[0];
-        try
+	static public var outName:String;
+	
+	static public function main()
+	{
+		outName = Sys.args()[0];
+		try
 		{
 			ModpackBuilder.build();
 		}
@@ -13,7 +13,7 @@ class Main
 		{
 			trace("[ERROR]   : " + e);
 		}
-    }
+	}
 	
 	static public function warning(s:String)
 	{

@@ -6,7 +6,7 @@ import sys.io.FileInput;
 
 class RequiredSource extends SourceFile
 {
-    public var relativePathToSource(default, null):String;
+	public var relativePathToSource(default, null):String;
 	
 	public function setSource(source:SourceFile)
 	{

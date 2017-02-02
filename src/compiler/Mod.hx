@@ -16,7 +16,7 @@ class Mod
 	private var requiredSources:Array<RequiredSource>;
 	
 	// Assumes path is a valid mod
-    public function new(_path:String)
+	public function new(_path:String)
 	{
 		path = _path;
 		requiredSources = new Array<RequiredSource>();
