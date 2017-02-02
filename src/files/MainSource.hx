@@ -13,6 +13,7 @@ class MainSource extends SourceFile
 			if(GeneralRegExp.modName.match(l))
 			{
 				modName = GeneralRegExp.modName.matched(1);
+				lines.remove(l); // get rid of the RegisterMod line
 				return;
 			}
 		}
