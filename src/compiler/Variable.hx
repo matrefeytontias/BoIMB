@@ -1,11 +1,17 @@
+package compiler;
+
 class Variable
 {
-	private var global:Bool;
-	private var name:String;
+	public var global:Bool;
+	public var oldName:String;
+	public var newName:String;
+	public var nameAllows:String;
 	
-	public function new(n:String, g:Bool)
+	public function new(old:String, newN:String, g:Bool, n:String = "")
 	{
-		name = n;
 		global = g;
+		oldName = old;
+		newName = newN;
+		nameAllows = n;
 	}
 }

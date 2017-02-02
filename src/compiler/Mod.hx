@@ -3,7 +3,6 @@ package compiler;
 import haxe.io.Path;
 import sys.FileSystem;
 import sys.io.File;
-import sys.io.FileInput;
 import sys.io.FileOutput;
 
 import files.*;
@@ -12,7 +11,9 @@ class Mod
 {
 	public var name:String;
 	public var dirname:String;
+	
 	private var path:String;
+	private var compiledResult:String;
 	private var mainSource:MainSource;
 	private var requiredSources:Array<RequiredSource>;
 	
@@ -42,20 +43,30 @@ class Mod
 				if(pathObject.file.toLowerCase() == "main")
 				{
 					if(mainSource != null)
-						throw "cannot have more than one main.lua per mod.";
-					mainSource = new MainSource(p);
+						throw '[$dirname] cannot have more than one main.lua per mod.';
+					mainSource = new MainSource(p, dirname);
 					name = mainSource.modName;
 				}
 				else
-					requiredSources.push(new RequiredSource(p));
+					requiredSources.push(new RequiredSource(p, dirname));
 			}
 		}
 		return true;
 	}
 	
+	public function compile()
+	{
+		compiledResult = Parser.compile(mainSource, requiredSources);
+	}
+	
+	public function writeCompiledResult(f:FileOutput)
+	{
+		f.writeString(compiledResult);
+	}
+	
 	public function report()
 	{
-		trace("	Contains " + (requiredSources.length + 1) + " Lua file(s) :");
+		trace(dirname + " contains " + (requiredSources.length + 1) + " Lua file(s) :");
 		trace("\tmain.lua");
 		for(r in requiredSources)
 			trace("\t" + r.relativePathToSource);

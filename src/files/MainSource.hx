@@ -1,22 +1,25 @@
 package files;
 
+import haxe.io.Path;
+
 class MainSource extends SourceFile
 {
 	public var modName:String;
 	
-	public function new(p:String)
+	public function new(p:String, dir:String)
 	{
-		super(p);
+		super(p, dir);
 		
 		for(l in lines)
 		{
-			if(GeneralRegExp.modName.match(l))
+			var m:EReg = ~/^ *local *([a-zA-Z](_|\.|[a-zA-Z0-9])*) *= *RegisterMod *\(.*\)/i;
+			if(m.match(l))
 			{
-				modName = GeneralRegExp.modName.matched(1);
+				modName = m.matched(1);
 				lines.remove(l); // get rid of the RegisterMod line
 				return;
 			}
 		}
-		throw "main.lua must contain RegisterMod";
+		throw '[$dirname] main.lua must contain RegisterMod';
 	}
 }

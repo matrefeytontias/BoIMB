@@ -1,17 +1,37 @@
 class Main
 {
+	static public var modName:String;
 	static public var outName:String;
+	static public var outDir:String;
 	
 	static public function main()
 	{
-		outName = Sys.args()[0];
-		try
+		var args = Sys.args();
+		
+		trace("");
+		trace("######################################");
+		trace("#  The Binding of Isaac Afterbith +  #");
+		trace("# Modpack Builder by Matrefeytontias #");
+		trace("######################################\n");
+		
+		if(args.length != 3)
 		{
-			ModpackBuilder.build();
+			trace("\nUsage : BoIMB <mod name> <input dir> <output dir>");
 		}
-		catch (e:String)
+		else
 		{
-			trace("[ERROR]   : " + e);
+			modName = args[0];
+			outDir = Sys.getCwd() + "/" + args[2];
+			Sys.setCwd(Sys.getCwd() + "/" + args[1]);
+			outName = args[2];
+			try
+			{
+				ModpackBuilder.build();
+			}
+			catch (e:String)
+			{
+				trace("[ERROR]   : " + e);
+			}
 		}
 	}
 	
