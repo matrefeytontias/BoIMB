@@ -41,7 +41,7 @@ class MoreStrings
 		var quoteCounter = 0; // no tokens inside of strings
 		while(c2 < s2.length && c1 <= s1.length - (s2.length - c2))
 		{
-			// trace(s1.charAt(c1), s2.charAt(c2));
+			// Main.log(s1.charAt(c1), s2.charAt(c2));
 			if(s1.charAt(c1) == '"')
 				quoteCounter++;
 			if(quoteCounter % 2 == 1) // an odd number of encountered quotes means we're inside a string constant
@@ -138,7 +138,7 @@ class Parser
 		{
 			var v:Variable = context.get(k);
 			if(v.global)
-				trace("Variable entry " + k + " -> " + v.newName + " w/ " + v.nameAllows);
+				Main.log("Variable entry " + k + " -> " + v.newName + " w/ " + v.nameAllows);
 			for(l in 0 ... lines.length)
 			{
 				if(v.global)
@@ -186,8 +186,8 @@ class Parser
 						{
 							var v = new Variable(varname, modName + "_" + varname, blockCounter == 0);
 							context.set(varname, v);
-							trace("Registering " + (v.global ? "global " : "") + "variable " + v.oldName + " -> " + v.newName);
-							trace(lines[l]);
+							Main.log("Registering " + (v.global ? "global " : "") + "variable " + v.oldName + " -> " + v.newName);
+							Main.log(lines[l]);
 						}
 					}
 					else // detects generic assignation
@@ -201,8 +201,8 @@ class Parser
 							{
 								var v = new Variable(varname, modName + "_" + varname, true);
 								context.set(varname, v);
-								trace("Registering " + (v.global ? "global " : "") + "variable " + v.oldName + " -> " + v.newName);
-								trace(lines[l]);
+								Main.log("Registering " + (v.global ? "global " : "") + "variable " + v.oldName + " -> " + v.newName);
+								Main.log(lines[l]);
 							}
 						}
 					}
@@ -220,7 +220,7 @@ class Parser
 				var ns = v.newName.replace(":", ".");
 				context.set(os, new Variable(os, ns, v.global, ".:"));
 				if(varname == "ai")
-					trace("Adding function ai on line : " + lines[l]);
+					Main.log("Adding function ai on line : " + lines[l]);
 			}
 			else if((o = lines[l].indexOfToken("local")) > -1) // detects a valueless local variable initialization (ugh Lua why)
 			{
@@ -232,15 +232,15 @@ class Parser
 			var r = lines[l].hasOneOfTokens(["function", "if", "do"]);
 			if(r.result && !lines[l].hasTokenInStringConstant(r.token, r.pos)) // detects the start of a block
 			{
-				trace("Starting block :");
-				trace(lines[l]);
+				Main.log("Starting block :");
+				Main.log(lines[l]);
 				blockCounter++;
 			}
 			else if(lines[l].indexOfToken("end") > -1) // detects the end of a blck
 			{
-				trace("Ending block");
+				Main.log("Ending block");
 				blockCounter--;
-				trace("Now on block " + blockCounter);
+				Main.log("Now on block " + blockCounter);
 			}
 		}
 			/*
