@@ -73,9 +73,9 @@ class Mod
 	
 	public function report()
 	{
-		trace(dirname + " contains " + (requiredSources.length + 1) + " Lua file(s) :");
-		trace("\tmain.lua");
+		Main.info(dirname + " contains " + (requiredSources.length + 1) + " Lua file(s) :");
+		Main.info("\tmain.lua");
 		for(r in requiredSources)
-			trace("\t" + r.relativePathToSource);
+			Main.info("\t" + r.relativePathToSource);
 	}
 }

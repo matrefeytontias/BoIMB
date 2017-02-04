@@ -1,10 +1,11 @@
 class Main
 {
 	static private var LOGLEVEL_ALLOWLOG(default, never) = 1;
-	static private var LOGLEVEL_ALLOWWARNING(default, never) = 2;
-	static private var LOGLEVEL_ALLOWERROR(default, never) = 4;
+	static private var LOGLEVEL_ALLOWINFO(default, never) = 2;
+	static private var LOGLEVEL_ALLOWWARNING(default, never) = 4;
+	static private var LOGLEVEL_ALLOWERROR(default, never) = 8;
 	
-	static private var logLevel = LOGLEVEL_ALLOWERROR | LOGLEVEL_ALLOWWARNING;
+	static private var logLevel = LOGLEVEL_ALLOWERROR | LOGLEVEL_ALLOWWARNING | LOGLEVEL_ALLOWINFO;
 	
 	static public var modName:String;
 	static public var outName:String;
@@ -46,6 +47,12 @@ class Main
 	{
 		if(logLevel & LOGLEVEL_ALLOWWARNING != 0)
 			trace("[WARNING] : " + s);
+	}
+	
+	static public function info(s:String)
+	{
+		if(logLevel & LOGLEVEL_ALLOWINFO != 0)
+			trace("[INFO]    : " + s);
 	}
 	
 	static public function log(s:String)

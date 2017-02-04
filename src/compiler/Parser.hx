@@ -208,7 +208,8 @@ class Parser
 					}
 				}
 			}
-			else if((o = lines[l].indexOfToken("function")) > -1 && !lines[l].hasTokenInStringConstant("function", o) && lines[l].nextTokenIsName(o)) // detects a function and local function
+			// detects a function and local function
+			else if((o = lines[l].indexOfToken("function")) > -1 && !lines[l].hasTokenInStringConstant("function", o) && lines[l].nextTokenIsName(o))
 			{
 				var varname = lines[l].getNextToken(o, ".:").token;
 				var s = varname.split(":");

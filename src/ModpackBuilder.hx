@@ -11,7 +11,7 @@ class ModpackBuilder
 	{
 		// Retrieve all mods
 		// Mods are directories with a main.lua file
-		trace("Searching for mods ...\n");
+		Main.info("Searching for mods ...\n");
 		FileSystemExplorer.explore(Sys.getCwd(), process);
 		
 		for(m in mods)
