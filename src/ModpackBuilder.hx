@@ -11,11 +11,13 @@ class ModpackBuilder
 	{
 		// Retrieve all mods
 		// Mods are directories with a main.lua file
-		Main.info("Searching for mods ...\n");
+		Main.info("Searching for mods ...");
+		Main.info("");
 		FileSystemExplorer.explore(Sys.getCwd(), process);
 		
 		for(m in mods)
 			m.report();
+		Main.info("");
 		
 		// Let all the errors happen before writing anything
 		for(m in mods)
@@ -27,7 +29,7 @@ class ModpackBuilder
 		f.writeString("-- Please report issues at https://github.com/matrefeytontias/BoIMB/issues\n\n");
 		f.writeString("local " + Main.outName + ' = RegisterMod("' + Main.modName + '", 1)\n');
 		for(m in mods)
-			m.writeCompiledResult(f);
+			m.writeCompiledResult(Main.outDir, f);
 		f.close();
 	}
 	

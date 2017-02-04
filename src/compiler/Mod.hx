@@ -7,20 +7,41 @@ import sys.io.FileOutput;
 
 import files.*;
 
+using Mod.RelativePath;
+
+class RelativePath
+{
+	static public function relativeTo(s1:String, s2:String) : String
+	{
+		return s1.split(s2 + "/")[1];
+	}
+}
+
 class Mod
 {
 	public var name:String;
 	public var dirname:String;
 	
 	private var path:String;
-	private var compiledResult:String;
+	private var contentPath:String;
+	private var resourcesPath:String;
+	
 	private var mainSource:MainSource;
 	private var requiredSources:Array<RequiredSource>;
+	
+	private var compiledResult:String;
+	private var contentFilesNames:Array<String>;
+	private var resourcesNames:Array<String>;
+	private var targetArray:Array<String>; // grab files via the getFiles callback
 	
 	// Assumes path is a valid mod
 	public function new(_path:String)
 	{
 		path = _path;
+		contentPath = path + "/content";
+		resourcesPath = path + "/resources";
+		contentFilesNames = new Array<String>();
+		resourcesNames = new Array<String>();
 		requiredSources = new Array<RequiredSource>();
 		var s = path.split('/');
 		dirname = s[s.length - 1];
@@ -56,11 +77,61 @@ class Mod
 	
 	public function compile()
 	{
+		// Compile Lua source files (they need a shitton of stuff to be done to them)
+		Main.info("Compiling mod " + dirname + " with name " + name  + " ...");
 		compiledResult = Parser.compile(mainSource, requiredSources);
+		
+		// Compile content files (they need XML merging)
+		Main.info("Gathering content files ...");
+		if(FileSystem.exists(contentPath))
+		{
+			var content = FileSystem.readDirectory(contentPath);
+			if(content.length > 0)
+			{
+				contentFilesNames = new Array<String>();
+				targetArray = contentFilesNames;
+				FileSystemExplorer.explore(contentPath, getFiles);
+			}
+		}
+		if(contentFilesNames.length == 0)
+			Main.info("No content file found.");
+		
+		// Compile resource files (they take no additional processing)
+		Main.info("Gathering resource files ...");
+		if(FileSystem.exists(resourcesPath))
+		{
+			var resources = FileSystem.readDirectory(resourcesPath);
+			if(resources.length > 0)
+			{
+				resourcesNames = new Array<String>();
+				targetArray = resourcesNames;
+				FileSystemExplorer.explore(resourcesPath, getFiles);
+			}
+		}
+		if(resourcesNames.length == 0)
+			Main.info("No resource file found.");
+		
+		Main.info("Done !");
+		Main.info("");
 	}
 	
-	public function writeCompiledResult(f:FileOutput)
+	private function getFiles(p:String) : Bool
 	{
+		// Ignore files in the same directory as main.lua
+		// Don't ignore Windows-created thumbnails but don't display them
+		if(!FileSystem.isDirectory(p) && p.substr(0, p.lastIndexOf("/")) != path)
+		{
+			var np = p.relativeTo(path);
+			if(p.substr(p.lastIndexOf("/") + 1) != "Thumbs.db")
+				Main.info("  " + np);
+			targetArray.push(np);
+		}
+		return true;
+	}
+	
+	public function writeCompiledResult(dir:String, f:FileOutput)
+	{
+		// Write the compiled Lua code
 		var s = "\n-- #";
 		var n = dirname.length + 4;
 		for(i in 0 ... n - 1)
@@ -69,13 +140,56 @@ class Mod
 		f.writeString("-- # " + dirname + " #");
 		f.writeString(s + "\n\n");
 		f.writeString(compiledResult);
+		
+		trace(contentFilesNames);
+		trace(resourcesNames);
+		
+		// Merge the XML files with the ones already existing
+		if(contentFilesNames.length > 0)
+			FileSystem.createDirectory(dir + "/content");
+		for(f in contentFilesNames)
+		{
+			if(!FileSystem.exists(dir + "/" + f))
+				File.copy(path + "/" + f, dir + "/" + f);
+			else // merge XML files
+			{
+				throw "Collision in file " + f + " ; XML merging yet not handled.";
+			}
+		}
+		
+		if(resourcesNames.length > 0)
+			FileSystem.createDirectory(dir + "/resources");
+		for(f in resourcesNames)
+		{
+			if(!FileSystem.exists(dir + "/" + f))
+			{
+				makeFileTree(dir, f);
+				File.copy(path + "/" + f, dir + "/" + f);
+			}
+			else
+				throw "Collision in file " + f + " ; resources with conflicting names.";
+		}
+	}
+	
+	// Creates all necessary directories to create a file
+	private function makeFileTree(root:String, target:String)
+	{
+		var dirs = Path.normalize(target).split('/');
+		var r = "";
+		for(k in 0 ... dirs.length - 1) // omit file name
+		{
+			r += dirs[k] + "/" ;
+			var n = root + "/" + r;
+			if(!FileSystem.exists(n))
+				FileSystem.createDirectory(n);
+		}
 	}
 	
 	public function report()
 	{
 		Main.info(dirname + " contains " + (requiredSources.length + 1) + " Lua file(s) :");
-		Main.info("\tmain.lua");
+		Main.info("  main.lua");
 		for(r in requiredSources)
-			Main.info("\t" + r.relativePathToSource);
+			Main.info("  " + r.relativePathToSource);
 	}
 }
