@@ -1,3 +1,5 @@
+import haxe.io.Path;
+
 import sys.FileSystem;
 
 class FileSystemExplorer
@@ -7,7 +9,7 @@ class FileSystemExplorer
 		var content:Array<String> = FileSystem.readDirectory(dir);
 		for(e in content)
 		{
-			var filename = dir + "/" + e;
+			var filename = Path.addTrailingSlash(dir) + e;
 			
 			if(process(filename) && FileSystem.isDirectory(filename))
 				explore(filename + "/", process);
