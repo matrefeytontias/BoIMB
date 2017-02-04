@@ -243,44 +243,5 @@ class Parser
 				Main.log("Now on block " + blockCounter);
 			}
 		}
-			/*
-			var o = lines[l].indexOfToken("function");
-			if(o > -1) // detects a function and local function
-			{
-				var varname = lines[l].getNextToken(o, ".:").token;
-				var s = varname.split(":");
-				var v = new Variable(varname,
-									s[0] == modName ? Main.outName + ":" + s[0] + "_" + s[1] : modName + "_" + varname,
-									lines[l].indexOfToken("local") > -1 ? blockCounter == 0 : true, ".:");
-				context.set(varname, v);
-				s = v.oldName.split(":");
-				var ns = v.newName.split(":");
-				context.set(s[0] + "." + s[1], new Variable(s[0] + "." + s[1], ns[0] + "." + ns[1], v.global, ".:"));
-				blockCounter++;
-			}
-			else if((o = lines[l].indexOfToken("local")) > -1) // detects a local variable
-			{
-				var r = lines[l].getNextToken(o);
-				var varname = r.token;
-				if(!context.exists(varname))
-					context.set(varname, new Variable(varname, modName + "_" + varname, blockCounter == 0));
-			}
-			else if(lines[l].hasOneOfTokens(["if", "elseif", "else", "for", "while", "do"])) // detects the start of a block
-				blockCounter++;
-			else if(lines[l].indexOfToken("end") > -1) // detects the end of a blck
-				blockCounter--;
-			else // detects generic assignation
-			{
-				var r = lines[l].getNextToken(0);
-				if(r.token != null)
-				{
-					var varname = r.token;
-					// See if we find a = sign right away
-					if(lines[l].charAt(lines[l].skipSpaces(r.nextPos)) == "=" && !context.exists(varname))
-						context.set(varname, new Variable(varname, modName + "_" + varname, true));
-				}
-			}
-		}
-		*/
 	}
 }
