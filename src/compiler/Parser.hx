@@ -5,9 +5,9 @@ import files.RequiredSource;
 
 using StringTools;
 
-using Parser.MoreStrings;
+using Parser.ParsedString;
 
-class MoreStrings
+class ParsedString
 {
 	static public function countChar(s:String, c:String) : Int
 	{
