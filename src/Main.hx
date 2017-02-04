@@ -38,7 +38,7 @@ class Main
 			catch (e:String)
 			{
 				if(logLevel & LOGLEVEL_ALLOWERROR != 0)
-					trace("[ERROR]   : " + e);
+					trace("[\033[31mERROR\033[0;37m]: " + e);
 			}
 		}
 	}
@@ -46,18 +46,18 @@ class Main
 	static public function warning(s:String)
 	{
 		if(logLevel & LOGLEVEL_ALLOWWARNING != 0)
-			trace("[WARNING] : " + s);
+			trace("[\033[33mWARN\033[0;37m]  : " + s);
 	}
 	
 	static public function info(s:String)
 	{
 		if(logLevel & LOGLEVEL_ALLOWINFO != 0)
-			trace("[INFO]    : " + s);
+			trace("[\033[32mINFO\033[0;37m]  : " + s);
 	}
 	
 	static public function log(s:String)
 	{
 		if(logLevel & LOGLEVEL_ALLOWLOG != 0)
-			trace("[LOG]     : " + s);
+			trace("[\033[1;34mLOG\033[0;37m]   : " + s);
 	}
 }

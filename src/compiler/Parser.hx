@@ -133,6 +133,11 @@ class Parser
 	{
 		// First, build the context, ie find all variable names that need replacement
 		buildContext();
+		var vars = 0;
+		for(k in context.keys())
+			vars++;
+		Main.info("  Registered " + vars + " fields for replacement.");
+		
 		// Then, loop through the context and replace all global tokens
 		for(k in context.keys())
 		{
