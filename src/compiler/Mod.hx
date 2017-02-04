@@ -141,33 +141,25 @@ class Mod
 		f.writeString(s + "\n\n");
 		f.writeString(compiledResult);
 		
-		trace(contentFilesNames);
-		trace(resourcesNames);
-		
 		// Merge the XML files with the ones already existing
 		if(contentFilesNames.length > 0)
 			FileSystem.createDirectory(dir + "/content");
 		for(f in contentFilesNames)
 		{
-			if(!FileSystem.exists(dir + "/" + f))
-				File.copy(path + "/" + f, dir + "/" + f);
-			else // merge XML files
-			{
-				throw "Collision in file " + f + " ; XML merging yet not handled.";
-			}
+			if(FileSystem.exists(dir + "/" + f))
+				Main.warning("XML merging is not yet supported ; overwriting " + f);
+			File.copy(path + "/" + f, dir + "/" + f);
 		}
 		
 		if(resourcesNames.length > 0)
 			FileSystem.createDirectory(dir + "/resources");
 		for(f in resourcesNames)
 		{
-			if(!FileSystem.exists(dir + "/" + f))
-			{
-				makeFileTree(dir, f);
-				File.copy(path + "/" + f, dir + "/" + f);
-			}
+			if(FileSystem.exists(dir + "/" + f))
+				Main.warning("Collision in file " + f + " ; resources with conflicting names.");
 			else
-				throw "Collision in file " + f + " ; resources with conflicting names.";
+				makeFileTree(dir, f);
+			File.copy(path + "/" + f, dir + "/" + f);
 		}
 	}
 	
