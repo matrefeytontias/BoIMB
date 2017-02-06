@@ -17,6 +17,8 @@ class RelativePath
 	}
 }
 
+typedef ResourcePath = {modName:String, path:String};
+
 class Mod
 {
 	public var name:String;
@@ -113,6 +115,14 @@ class Mod
 		
 		Main.info("Done !");
 		Main.info("");
+	}
+	
+	public function getResourceFilenames() : Array<ResourcePath>
+	{
+		var array = new Array<ResourcePath>();
+		for(r in resourcesNames)
+			array.push({modName:dirname, path:r});
+		return array;
 	}
 	
 	private function getFiles(p:String) : Bool
