@@ -38,7 +38,7 @@ class Main
 			catch (e:String)
 			{
 				if(logLevel & LOGLEVEL_ALLOWERROR != 0)
-					trace("[\033[31mERROR\033[0;37m]: " + e);
+					trace("[\033[31mERROR\033[0;37m] : " + e);
 			}
 		}
 	}
