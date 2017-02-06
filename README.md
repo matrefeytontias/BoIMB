@@ -7,11 +7,10 @@ single, huge main.lua file that will satisfy the game's mod loader. It also allo
 
 ## Usage
 
-Individual mods are written exactly like usual Afterbirth+ mods would. That, plus you benefit from a restricted `require` functionality that
-basically uses the builder's directory as a root. A direct consequence is that standalone mods can be instantly integrated in a modpack.
+Individual mods are written exactly like usual Afterbirth+ mods would. A direct consequence is that standalone mods can be instantly integrated in a modpack.
 
 BoIMB recursively visits every directory and subdirectory starting from its own directory. It then grabs every main.lua file it can find,
-processes them as needed, packs the resources (namely, `content` and `resources` directories) and builds a big mod in its own directory which then
+processes them as needed, packs the resources (namely, `content` and `resources` directories) and builds a big mod in a given directory which then
 contains valid main.lua, `content` and `resources` files and directories. The output directory is passed as an argument to the program.
 
 ## Example usage
@@ -40,8 +39,8 @@ items
 -- -- thing.lua
 ```
 
-Then run `BoIMB BigMod`, and the tool will assemble all the files into a working mod called BigMod. You can then copy the generated BigMod directory
-into your Afterbirth+ mods directory.
+Then run `BoIMB "The Big Mod" . BigMod`, and the tool will assemble all the files into a working mod called BigMod which will register as "The Big Mod". You can then
+copy the generated BigMod directory into your Afterbirth+ mods directory.
 
 ## Handling name collisions
 
@@ -81,13 +80,10 @@ end
 function BigMod:mod1_doTheThing(blah, bleh, bloo)
 	mod1_bleh()
 end
-
-function mod1_bleh()
-	
 ```
 Because of how this works, you are not allowed to name two registered mods with the same name, and compilation will fail if you do so.
 
 ### Resource files
 
 Because resource files are created by an external program and can be referenced many times in code, it is up to the user to make sure that collisions
-can't happen - the tool will still give a warning if a collision is detected and abort compilation.
+can't happen - the tool will still give an error if a collision is detected and abort compilation.
