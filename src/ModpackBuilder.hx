@@ -32,7 +32,7 @@ class ModpackBuilder
 		resourceNames = resources.map(function (r:ResourcePath) { return r.path; });
 		for(r in resourceNames)
 			if(resourceNames.indexOf(r) != resourceNames.lastIndexOf(r))
-				throw "Collision in resource files : several mods have " + r + " : " +
+				throw "Collision in resource files : several mods have " + r + " " +
 					resources.filter(function (p:ResourcePath) { return p.path == r; })
 					.map(function (p:ResourcePath) { return p.modName;});
 		
