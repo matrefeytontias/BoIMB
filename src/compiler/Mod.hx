@@ -151,24 +151,27 @@ class Mod
 		f.writeString(s + "\n\n");
 		f.writeString(compiledResult);
 		
-		// Merge the XML files with the ones already existing
+		// Append the XML files to the ones already existing
 		if(contentFilesNames.length > 0)
 			FileSystem.createDirectory(dir + "/content");
 		for(f in contentFilesNames)
 		{
 			if(FileSystem.exists(dir + "/" + f))
-				Main.warning("XML merging is not yet supported ; overwriting " + f);
-			File.copy(path + "/" + f, dir + "/" + f);
+			{
+				var f = File.append(dir + "/" + f);
+				f.writeString(File.getContent(path + "/" + f));
+				f.close();
+			}
+			else
+				File.copy(path + "/" + f, dir + "/" + f);
 		}
 		
+		// It has already been made sure that all resources have different names
 		if(resourcesNames.length > 0)
 			FileSystem.createDirectory(dir + "/resources");
 		for(f in resourcesNames)
 		{
-			if(FileSystem.exists(dir + "/" + f))
-				Main.warning("Collision in file " + f + " ; resources with conflicting names.");
-			else
-				makeFileTree(dir, f);
+			makeFileTree(dir, f);
 			File.copy(path + "/" + f, dir + "/" + f);
 		}
 	}
