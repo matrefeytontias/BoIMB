@@ -7,6 +7,8 @@ single, huge main.lua file that will satisfy the game's mod loader. It also allo
 
 ## Usage
 
+`BoIMB <mod name in quotes> <input dir> <output dir>`
+
 Individual mods are written exactly like usual Afterbirth+ mods would. A direct consequence is that standalone mods can be instantly integrated in a modpack.
 
 BoIMB recursively visits every directory and subdirectory starting from its own directory. It then grabs every main.lua file it can find,
