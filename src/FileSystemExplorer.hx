@@ -15,19 +15,27 @@ class FileSystemExplorer
 			
 			if(process(filename) && FileSystem.isDirectory(filename))
 			{
-				explore(filename + "/", process);
+				explore(filename + "/", process, postDir);
 				if(postDir != null)
-					postDir(dir);
+					postDir(filename);
 			}
 		}
 	}
 	
 	static public function deleteDirectory(dir:String)
 	{
-		explore(dir, function (f:String) : Bool
-			{
-				if(!FileSystem.isDirectory(f))
-					FileSystem.deleteFile(f);
-					return true; }, function (d:String) { FileSystem.deleteDirectory(d); });
+		explore(dir, exploreDelete, postDirDelete);
+	}
+	
+	static private function exploreDelete(f:String) : Bool
+	{
+		if(!FileSystem.isDirectory(f))
+			FileSystem.deleteFile(f);
+		return true;
+	}
+	
+	static private function postDirDelete(d:String)
+	{
+		FileSystem.deleteDirectory(d);
 	}
 }
