@@ -15,15 +15,15 @@ class Main
 	{
 		var args = Sys.args();
 		
-		trace("");
-		trace("######################################");
-		trace("#  The Binding of Isaac Afterbith +  #");
-		trace("# Modpack Builder by Matrefeytontias #");
-		trace("######################################\n");
+		Sys.println("");
+		Sys.println("######################################");
+		Sys.println("#  The Binding of Isaac Afterbith +  #");
+		Sys.println("# Modpack Builder by Matrefeytontias #");
+		Sys.println("######################################\n");
 		
 		if(args.length != 3)
 		{
-			trace("\nUsage : BoIMB <mod name> <input dir> <output dir>");
+			Sys.println("\nUsage : BoIMB <mod name> <input dir> <output dir>");
 		}
 		else
 		{
@@ -38,7 +38,7 @@ class Main
 			catch (e:String)
 			{
 				if(logLevel & LOGLEVEL_ALLOWERROR != 0)
-					trace("[\033[31mERROR\033[0;37m] : " + e);
+					Sys.println("[\033[31mERROR\033[0;37m] : " + e);
 			}
 		}
 	}
@@ -46,18 +46,18 @@ class Main
 	static public function warning(s:String)
 	{
 		if(logLevel & LOGLEVEL_ALLOWWARNING != 0)
-			trace("[\033[33mWARN\033[0;37m]  : " + s);
+			Sys.println("[\033[33mWARN\033[0;37m]  : " + s);
 	}
 	
 	static public function info(s:String)
 	{
 		if(logLevel & LOGLEVEL_ALLOWINFO != 0)
-			trace("[\033[32mINFO\033[0;37m]  : " + s);
+			Sys.println("[\033[32mINFO\033[0;37m]  : " + s);
 	}
 	
 	static public function log(s:String)
 	{
 		if(logLevel & LOGLEVEL_ALLOWLOG != 0)
-			trace("[\033[1;34mLOG\033[0;37m]   : " + s);
+			Sys.println("[\033[1;34mLOG\033[0;37m]   : " + s);
 	}
 }
